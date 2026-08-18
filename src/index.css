@@ -1,0 +1,199 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ---------------------------------------------------------------------------
+   Alagard — https://www.dafont.com/alagard.font
+   El .ttf no se puede redistribuir desde npm, así que vive en public/fonts/.
+   Ejecuta `npm run fuentes` para ver las instrucciones de instalación.
+   Mientras no exista el archivo, el navegador cae en la pila de respaldo
+   definida en --font-titular (Jacquard 24 / Pixelify Sans / monospace).
+--------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Alagard";
+  src:
+    url("/fonts/alagard.woff2") format("woff2"),
+    url("/fonts/alagard.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* --- Paleta: castillo nocturno contra cielo enfermo --- */
+  --ceniza: oklch(0.13 0.008 45);      /* casi negro, base */
+  --ceniza-honda: oklch(0.09 0.006 45);
+  --piedra: oklch(0.21 0.021 42);      /* muro en penumbra */
+  --muro: oklch(0.28 0.044 40);        /* ladrillo */
+  --muro-alto: oklch(0.36 0.062 42);   /* ladrillo iluminado */
+  --brasa: oklch(0.68 0.196 45);       /* naranja de ventana */
+  --brasa-viva: oklch(0.79 0.161 72);  /* ámbar */
+  --sangre: oklch(0.53 0.208 27);      /* rojo del rótulo */
+  --sangre-honda: oklch(0.36 0.152 27);
+  --cielo: oklch(0.91 0.104 104);      /* amarillo del horizonte */
+  --cielo-palido: oklch(0.96 0.062 104);
+  --musgo: oklch(0.78 0.086 116);
+
+  --radius: 0rem;
+
+  --background: var(--ceniza);
+  --foreground: oklch(0.9 0.03 85);
+
+  --card: var(--piedra);
+  --card-foreground: oklch(0.9 0.03 85);
+  --popover: var(--piedra);
+  --popover-foreground: oklch(0.9 0.03 85);
+
+  --primary: var(--sangre);
+  --primary-foreground: var(--cielo-palido);
+  --secondary: var(--muro);
+  --secondary-foreground: var(--cielo);
+  --muted: var(--piedra);
+  --muted-foreground: oklch(0.66 0.038 70);
+  --accent: var(--brasa);
+  --accent-foreground: var(--ceniza-honda);
+  --destructive: var(--sangre);
+
+  --border: oklch(0.32 0.045 42);
+  --input: oklch(0.26 0.034 42);
+  --ring: var(--brasa);
+}
+
+@theme inline {
+  --font-titular: "Alagard", "Jacquard 24", "Pixelify Sans", "Papyrus", ui-serif, serif;
+  --font-cuerpo: "Pixelify Sans", ui-monospace, "Courier New", monospace;
+  --font-sans: var(--font-cuerpo);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-ceniza: var(--ceniza);
+  --color-ceniza-honda: var(--ceniza-honda);
+  --color-piedra: var(--piedra);
+  --color-muro: var(--muro);
+  --color-muro-alto: var(--muro-alto);
+  --color-brasa: var(--brasa);
+  --color-brasa-viva: var(--brasa-viva);
+  --color-sangre: var(--sangre);
+  --color-sangre-honda: var(--sangre-honda);
+  --color-cielo: var(--cielo);
+  --color-cielo-palido: var(--cielo-palido);
+  --color-musgo: var(--musgo);
+
+  --radius-sm: 0rem;
+  --radius-md: 0rem;
+  --radius-lg: 0rem;
+  --radius-xl: 0rem;
+
+  --animate-parpadeo: parpadeo 4s ease-in-out infinite;
+  --animate-respirar: respirar 6s ease-in-out infinite;
+  --animate-flotar: flotar 9s ease-in-out infinite;
+
+  @keyframes parpadeo {
+    0%, 100% { opacity: 1; }
+    43% { opacity: 0.86; }
+    47% { opacity: 0.55; }
+    50% { opacity: 0.95; }
+    54% { opacity: 0.62; }
+    58% { opacity: 1; }
+  }
+  @keyframes respirar {
+    0%, 100% { opacity: 0.55; transform: scale(1); }
+    50% { opacity: 0.95; transform: scale(1.06); }
+  }
+  @keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-[family-name:var(--font-cuerpo)] antialiased;
+    background-image:
+      radial-gradient(120% 78% at 50% 0%, color-mix(in oklab, var(--cielo) 26%, transparent) 0%, transparent 58%),
+      linear-gradient(180deg, var(--ceniza) 0%, var(--ceniza-honda) 100%);
+    background-attachment: fixed;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--sangre);
+    color: var(--cielo-palido);
+  }
+
+  /* Todo el sitio es pixel-art: nada de suavizado en las imágenes */
+  img, svg {
+    image-rendering: pixelated;
+  }
+}
+
+@utility text-rotulo {
+  font-family: var(--font-titular);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* El rojo del rótulo, con el mismo borde duro y sombra de la portada */
+@utility text-sangriento {
+  color: var(--sangre);
+  text-shadow:
+    0 0 0.06em color-mix(in oklab, var(--sangre) 70%, black),
+    0.06em 0.06em 0 var(--sangre-honda),
+    0 0 0.7em color-mix(in oklab, var(--sangre) 55%, transparent),
+    0 0 2.2em color-mix(in oklab, var(--brasa) 30%, transparent);
+}
+
+/* Resplandor de ventana encendida */
+@utility brasa-encendida {
+  box-shadow:
+    0 0 0.6rem color-mix(in oklab, var(--brasa) 70%, transparent),
+    0 0 2rem color-mix(in oklab, var(--brasa) 45%, transparent),
+    inset 0 0 0.5rem color-mix(in oklab, var(--brasa-viva) 60%, transparent);
+}
+
+/* Marco de piedra: esquinas mordidas, sin border-radius */
+@utility marco-piedra {
+  border: 2px solid var(--border);
+  background: color-mix(in oklab, var(--piedra) 88%, transparent);
+  clip-path: polygon(
+    0 8px, 8px 8px, 8px 0,
+    calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%,
+    8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
